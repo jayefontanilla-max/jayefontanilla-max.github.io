@@ -1,0 +1,228 @@
+/*
+ * Brand layer. Loaded last (main.tsx) so it restyles the shared pieces in one place:
+ * display titles pair a Bricolage Grotesque bold with an Instrument Serif italic (sentence case, never
+ * all-caps), eyebrows get a teal "on air" dot, buttons are pills, and the page sits on a soft aurora + grain.
+ */
+
+/* ---------- Display titles ---------- */
+:root :is(.wk-title, .pg-title, .sv__title) {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
+}
+:root :is(.wk-title__bold, .pg-title > b, .sv__title > b) {
+  font-family: var(--font-sans);
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+:root :is(.wk-title, .pg-title, .sv__title) :is(.wk-title__thin, span:not([class])) {
+  color: var(--accent-ink);
+}
+:root .wk-title {
+  font-size: clamp(2rem, 5cqi, 4.6rem);
+}
+
+/* ---------- Eyebrows ---------- */
+:root :is(.wk-eyebrow, .pg-eyebrow, .sv__eyebrow) {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-2);
+  letter-spacing: 0.22em;
+}
+:root :is(.wk-eyebrow, .pg-eyebrow, .sv__eyebrow)::before {
+  content: '';
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+/* ---------- Manifesto: light sans with serif-italic keywords ---------- */
+:root .ms__text {
+  text-transform: none;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+:root .ms__w {
+  font-weight: 300;
+}
+:root .ms__w--key {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--accent-ink);
+}
+
+/* ---------- Buttons: pills ---------- */
+:root .btn-line {
+  gap: 10px;
+  padding: 15px 26px;
+  border-radius: 999px;
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  box-shadow: 0 10px 30px -12px var(--accent);
+}
+:root .btn-line:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  color: var(--ink);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: border-color 180ms ease, background-color 180ms ease;
+}
+.btn-ghost:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* ---------- Background: aurora + film grain (CSS only, replaces the three.js lines) ---------- */
+.app-aurora {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+.app-aurora::before,
+.app-aurora::after {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background:
+    radial-gradient(40% 35% at 78% 12%, var(--aurora-a), transparent 70%),
+    radial-gradient(35% 30% at 20% 85%, var(--aurora-b), transparent 70%),
+    radial-gradient(45% 40% at 60% 60%, var(--aurora-c), transparent 70%);
+  filter: blur(20px);
+  animation: aurora-drift 38s ease-in-out infinite alternate;
+}
+.app-aurora::after {
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  filter: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  animation: none;
+}
+@keyframes aurora-drift {
+  0% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50% { transform: translate3d(-4%, 3%, 0) rotate(6deg); }
+  100% { transform: translate3d(3%, -2%, 0) rotate(-4deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-aurora::before { animation: none; }
+}
+
+/* Sidebar banner takes the teal-to-gold band. */
+:root .sb-head::before {
+  background: var(--band);
+}
+
+/* No social profiles yet: hide the empty row. */
+.social-keys:empty {
+  display: none;
+}
+
+/* ---------- Service cards: glow, big serif number, pill tags ---------- */
+:root .sv__card {
+  background:
+    radial-gradient(70% 90% at 100% 0%, var(--accent-soft), transparent 60%),
+    radial-gradient(50% 70% at 0% 100%, var(--gold-soft), transparent 65%),
+    var(--surface);
+}
+:root .sv__card::before {
+  content: attr(data-n);
+  position: absolute;
+  right: clamp(20px, 3cqi, 44px);
+  bottom: -0.18em;
+  font-family: var(--font-serif);
+  font-size: clamp(7rem, 16cqi, 13rem);
+  font-style: italic;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--line-strong);
+  pointer-events: none;
+}
+:root .sv__name {
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+:root .sv__index > span {
+  color: var(--accent-ink);
+}
+:root .sv__tags {
+  gap: 6px;
+  letter-spacing: 0.08em;
+}
+:root .sv__tags > span {
+  padding: 6px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+}
+:root .sv__explore {
+  color: var(--accent-ink);
+}
+
+/* ---------- Work sheets ---------- */
+:root :is(.sh__title, .sh__next-title) {
+  text-transform: none;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+}
+/* Vertical video stills sit whole on a dark ground instead of being cropped to 16:10. */
+:root .sh__shot:has(img[width='540']) {
+  background: radial-gradient(60% 80% at 50% 50%, var(--accent-soft), #05080c);
+}
+:root .sh__shot img[width='540'] {
+  object-fit: contain;
+}
+
+/* Page content paints above the aurora. */
+.app-main {
+  position: relative;
+  z-index: 1;
+}
+
+/* Work: the full-library link sits under the title. */
+.wb__all {
+  margin-top: 22px;
+}
+
+/* ---------- Shared card FX colours per section (see components/fx) ---------- */
+.sv__item:nth-child(6n + 2) .sv__card { --c1: #a78bfa; --c2: var(--accent); }
+.sv__item:nth-child(6n + 3) .sv__card { --c1: #38bdf8; --c2: var(--gold); }
+.sv__item:nth-child(6n + 4) .sv__card { --c1: #fb7185; --c2: var(--gold); }
+.sv__item:nth-child(6n + 5) .sv__card { --c1: var(--gold); --c2: #a78bfa; }
+.sv__item:nth-child(6n + 6) .sv__card { --c1: var(--accent); --c2: #fb7185; }
+.fl__panel { --c1: #38bdf8; --c2: var(--accent); }
+.ct-panel { --c1: var(--gold); --c2: var(--accent); }
+.rl__library { --c1: var(--gold); --c2: var(--accent); }
+.ab2__tl li { border-radius: var(--radius-md); }
+
+/* The animated orbs live in components/backdrop; the aurora layer now only adds film grain. */
+.app-aurora::before {
+  display: none;
+}

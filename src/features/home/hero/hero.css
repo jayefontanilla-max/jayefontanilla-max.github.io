@@ -1,0 +1,396 @@
+/*
+ * Home hero, "the studio desk": two columns from 1100px of content width, stacked below that.
+ */
+
+.hx {
+  --gutter: clamp(16px, 3.5vw, 56px);
+  container-type: inline-size;
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+  min-height: 100svh;
+  padding: clamp(72px, 10vh, 120px) var(--gutter) clamp(48px, 8vh, 96px);
+  overflow-x: clip;
+}
+
+/* ---------- Copy ---------- */
+
+.hx__hello {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 28px;
+  color: var(--ink-2);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) both;
+}
+.hx__live {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: hx-pulse 2.4s ease-out infinite;
+}
+.hx__sep {
+  color: var(--ink-3);
+}
+.hx__role {
+  color: var(--accent-ink);
+}
+
+.hx__title {
+  display: grid;
+  gap: 0.08em;
+  margin: 0;
+  font-size: clamp(2.6rem, 6.4cqi, 5.6rem);
+  line-height: 0.98;
+}
+.hx__bold {
+  font-weight: 750;
+  letter-spacing: -0.05em;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) 80ms both;
+}
+.hx__serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  /* Teal-to-gold ink, like light catching a lens. */
+  background: linear-gradient(95deg, var(--accent-ink) 10%, var(--gold) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.06em;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) 160ms both;
+}
+
+.hx__sub {
+  max-width: 52ch;
+  margin: 28px 0 0;
+  color: var(--ink-2);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  line-height: 1.6;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) 240ms both;
+}
+
+.hx__ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) 300ms both;
+}
+
+.hx__stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  max-width: 520px;
+  gap: 12px;
+  margin: 44px 0 0;
+  padding: 0;
+  list-style: none;
+  animation: hx-rise var(--dur-slow) var(--ease-spring) 360ms both;
+}
+.hx__stats li {
+  display: grid;
+  gap: 2px;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+.hx__stats b {
+  font-size: 1.9rem;
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+}
+.hx__stats li:nth-child(2) b {
+  color: var(--accent-ink);
+}
+.hx__stats li:nth-child(3) b {
+  color: var(--gold);
+}
+.hx__stats span {
+  color: var(--ink-3);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ---------- Stage: portrait + fanned phones ---------- */
+
+.hx__stage {
+  position: relative;
+  height: min(80svh, 660px);
+  min-height: 480px;
+}
+
+.hx__portrait {
+  position: absolute;
+  top: 9%;
+  left: 19%;
+  z-index: 1;
+  width: 56%;
+  margin: 0;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--surface-2);
+  box-shadow: 0 0 0 1px var(--line-strong), var(--shadow-float);
+  transform: rotate(-2deg);
+  animation: hx-card 900ms var(--ease-spring) 120ms both;
+}
+.hx__portrait img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 30%;
+}
+.hx__portrait figcaption {
+  position: absolute;
+  inset: auto 10px 10px;
+  display: grid;
+  gap: 2px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  background: rgb(8 13 20 / 0.72);
+  color: #fff;
+}
+.hx__portrait figcaption b {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+.hx__portrait figcaption span {
+  color: #a9f5e9;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.hx__phone {
+  --w: 33%;
+  position: absolute;
+  width: var(--w);
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  padding: 6px;
+  border-radius: 28px;
+  background: #0b0f15;
+  box-shadow: 0 0 0 1px rgb(255 255 255 / 0.08), var(--shadow-float);
+  animation: hx-card 900ms var(--ease-spring) both;
+  animation-delay: calc(260ms + var(--i) * 110ms);
+}
+.hx__phone video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
+  object-fit: cover;
+  background: #0b0f15;
+}
+.hx__phone:nth-of-type(1) {
+  top: 0;
+  right: 0;
+  z-index: 3;
+  --w: 30%;
+  transform: rotate(6deg);
+}
+.hx__phone:nth-of-type(2) {
+  bottom: 3%;
+  left: 0;
+  z-index: 3;
+  --w: 28%;
+  transform: rotate(-7deg);
+}
+.hx__phone:nth-of-type(3) {
+  bottom: 0;
+  right: 13%;
+  z-index: 2;
+  --w: 25%;
+  transform: rotate(3deg);
+}
+
+.hx__rec {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 4px rgb(0 0 0 / 0.7);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.hx__rec i {
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  animation: hx-blink 1.4s steps(2, jump-none) infinite;
+}
+
+/* ---------- Motion ---------- */
+
+@keyframes hx-rise {
+  from {
+    opacity: 0.1;
+    transform: translateY(16px);
+  }
+}
+@keyframes hx-card {
+  from {
+    opacity: 0;
+    translate: 0 40px;
+    scale: 0.94;
+  }
+}
+@keyframes hx-pulse {
+  70% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+  100% {
+    box-shadow: 0 0 0 0 transparent;
+  }
+}
+@keyframes hx-blink {
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* ---------- Narrow content: stack ---------- */
+
+@media (max-width: 1180px) {
+  .hx {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: 0;
+  }
+  .hx__stage {
+    width: 100%;
+    max-width: 560px;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 5 / 5.6;
+    margin-inline: auto;
+  }
+}
+@media (max-width: 480px) {
+  .hx__stats b {
+    font-size: 1.5rem;
+  }
+  .hx__stats li {
+    padding: 12px;
+  }
+  .hx__stats span {
+    font-size: 9.5px;
+    letter-spacing: 0.06em;
+  }
+}
+@media (max-width: 1023px) {
+  .hx {
+    padding-top: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hx *,
+  .hx {
+    animation: none !important;
+  }
+}
+
+/* Small phones: the caption keeps the name only, so the face stays clear. */
+@media (max-width: 480px) {
+  .hx__portrait figcaption span {
+    display: none;
+  }
+  .hx__rec {
+    font-size: 8px;
+  }
+}
+
+/* The feature card: a lesson playing in 9:16, the hero's centrepiece. */
+.hx__feature {
+  top: 4%;
+  left: 27%;
+  width: 46%;
+  aspect-ratio: 9 / 16;
+  transform: rotate(-1.5deg);
+}
+.hx__feature video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  background: #05080c;
+}
+.hx__feature figcaption {
+  gap: 4px;
+}
+.hx__now {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.hx__now i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff4d4d;
+  animation: hx-blink 1.4s steps(2, jump-none) infinite;
+}
+.hx__stage .hx__phone:nth-of-type(1) {
+  top: 0;
+  right: 0;
+  --w: 27%;
+}
+.hx__stage .hx__phone:nth-of-type(2) {
+  top: 30%;
+  bottom: auto;
+  left: 0;
+  --w: 27%;
+}
+.hx__stage .hx__phone:nth-of-type(3) {
+  bottom: 0;
+  right: 4%;
+  --w: 24%;
+}
+@media (max-width: 480px) {
+  .hx__feature figcaption b {
+    font-size: 13px;
+  }
+}
+
+/* Desktop: the top bar already takes 88px of the first screen. */
+@media (min-width: 1181px) {
+  .hx {
+    min-height: calc(100svh - 88px);
+    padding-top: clamp(16px, 4vh, 48px);
+    padding-bottom: clamp(24px, 5vh, 56px);
+  }
+}
+@media (max-width: 480px) {
+  .hx__feature figcaption {
+    display: none;
+  }
+}

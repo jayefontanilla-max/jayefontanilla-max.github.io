@@ -1,0 +1,139 @@
+/* Shared card FX: see Fx.tsx. Same look as the Work cards, reusable anywhere. */
+
+:where(.fx-host) {
+  --c1: var(--accent);
+  --c2: var(--gold);
+  --mx: 50%;
+  --my: 0%;
+  --rx: 0;
+  --ry: 0;
+  position: relative;
+  isolation: isolate;
+}
+
+.fx {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.fx[data-fx='over'] {
+  z-index: 4;
+}
+
+/* Drifting colour blobs… */
+.fx__aurora {
+  position: absolute;
+  inset: -30%;
+  background:
+    radial-gradient(36% 40% at 25% 25%, color-mix(in srgb, var(--c1) 30%, transparent), transparent 70%),
+    radial-gradient(32% 38% at 78% 75%, color-mix(in srgb, var(--c2) 26%, transparent), transparent 70%),
+    radial-gradient(24% 28% at 65% 18%, color-mix(in srgb, var(--c1) 14%, transparent), transparent 70%);
+  filter: blur(22px);
+  animation: fx-drift 18s ease-in-out infinite alternate;
+  transition: filter 400ms ease;
+}
+.fx-host:nth-child(2n) .fx__aurora {
+  animation-duration: 21s;
+  animation-direction: alternate-reverse;
+}
+.fx-host:nth-child(3n) .fx__aurora {
+  animation-duration: 25s;
+}
+/* …under a slowly moving dot grid. */
+.fx[data-fx='full']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(color-mix(in srgb, var(--ink) 18%, transparent) 1px, transparent 1.4px);
+  background-size: 18px 18px;
+  -webkit-mask: radial-gradient(80% 70% at 70% 20%, #000 0%, transparent 75%);
+  mask: radial-gradient(80% 70% at 70% 20%, #000 0%, transparent 75%);
+  opacity: 0.4;
+  animation: fx-grid 26s linear infinite;
+}
+
+/* Cursor spotlight (and dot grid follows the cursor on hover). */
+.fx::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(380px circle at var(--mx) var(--my), color-mix(in srgb, var(--c1) 18%, transparent), transparent 60%);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+.fx[data-fx='over']::after {
+  background: radial-gradient(320px circle at var(--mx) var(--my), rgb(255 255 255 / 0.14), transparent 60%);
+  mix-blend-mode: soft-light;
+}
+
+/* Glowing edge where the cursor is. */
+.fx__edge {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1.5px;
+  border-radius: inherit;
+  background: radial-gradient(240px circle at var(--mx) var(--my), var(--c1), color-mix(in srgb, var(--c2) 55%, transparent) 40%, transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  opacity: 0;
+  transition: opacity 300ms ease;
+  pointer-events: none;
+}
+
+.fx-host:hover > .fx::after,
+.fx-host:hover > .fx > .fx__edge,
+.fx-host:focus-visible > .fx > .fx__edge {
+  opacity: 1;
+}
+.fx-host:hover > .fx > .fx__aurora {
+  filter: blur(16px) saturate(1.35) brightness(1.15);
+  animation-duration: 8s;
+}
+.fx-host:hover > .fx[data-fx='full']::before {
+  opacity: 0.85;
+  -webkit-mask: radial-gradient(200px circle at var(--mx) var(--my), #000 10%, transparent 75%);
+  mask: radial-gradient(200px circle at var(--mx) var(--my), #000 10%, transparent 75%);
+}
+
+/* Optional tilt toward the cursor. */
+.fx-tilt {
+  transform: perspective(1200px) rotateX(0deg) rotateY(0deg);
+  transition: transform 450ms var(--ease-spring), box-shadow 260ms ease;
+}
+.fx-tilt:hover {
+  transform: perspective(1200px) rotateX(calc(var(--ry) * -2.5deg)) rotateY(calc(var(--rx) * 3deg)) translateY(-3px);
+  box-shadow: 0 30px 60px -28px color-mix(in srgb, var(--c1) 55%, transparent), var(--shadow-float);
+}
+
+@keyframes fx-drift {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+  }
+  50% {
+    transform: translate(6%, -5%) rotate(25deg) scale(1.12);
+  }
+  100% {
+    transform: translate(-6%, 4%) rotate(-20deg) scale(0.95);
+  }
+}
+@keyframes fx-grid {
+  to {
+    background-position: 18px 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx__aurora,
+  .fx::before {
+    animation: none;
+  }
+  .fx-tilt,
+  .fx-tilt:hover {
+    transform: none;
+  }
+}

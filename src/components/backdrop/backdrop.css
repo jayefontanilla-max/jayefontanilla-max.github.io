@@ -1,0 +1,107 @@
+/* Page background (Backdrop.tsx): stage-light orbs + fading grid + light sweep. */
+
+.bd {
+  /* Professional palette: business navy, steel blue, slate silver. */
+  --orb-a: rgb(70 120 180 / 0.42);
+  --orb-b: rgb(148 163 184 / 0.2);
+  --orb-c: rgb(37 64 140 / 0.45);
+  --grid: rgb(255 255 255 / 0.05);
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+:root[data-theme='light'] .bd {
+  --orb-a: rgb(70 110 160 / 0.24);
+  --orb-b: rgb(100 116 139 / 0.16);
+  --orb-c: rgb(40 70 130 / 0.16);
+  --grid: rgb(15 40 60 / 0.06);
+}
+
+.bd__orb {
+  position: absolute;
+  width: 62vmax;
+  height: 62vmax;
+  border-radius: 50%;
+  filter: blur(70px);
+  will-change: transform;
+}
+.bd__orb--a {
+  top: -26vmax;
+  right: -14vmax;
+  background: radial-gradient(circle, var(--orb-a), transparent 65%);
+  animation: bd-a 26s ease-in-out infinite alternate;
+}
+.bd__orb--b {
+  bottom: -30vmax;
+  left: -18vmax;
+  background: radial-gradient(circle, var(--orb-b), transparent 65%);
+  animation: bd-b 32s ease-in-out infinite alternate;
+}
+.bd__orb--c {
+  top: 20%;
+  left: 30%;
+  width: 46vmax;
+  height: 46vmax;
+  background: radial-gradient(circle, var(--orb-c), transparent 65%);
+  animation: bd-c 38s ease-in-out infinite alternate;
+}
+
+/* Fine grid, visible only near the top and fading out. */
+.bd__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask: radial-gradient(80% 60% at 50% 0%, #000 0%, transparent 75%);
+  mask: radial-gradient(80% 60% at 50% 0%, #000 0%, transparent 75%);
+  animation: bd-grid 40s linear infinite;
+}
+
+/* A soft diagonal light that crosses the screen every so often. */
+.bd__sweep {
+  position: absolute;
+  inset: -50% -10%;
+  background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.05) 50%, transparent 58%);
+  animation: bd-sweep 16s ease-in-out infinite;
+}
+:root[data-theme='light'] .bd__sweep {
+  background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.45) 50%, transparent 58%);
+}
+
+@keyframes bd-a {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-14vw, 10vh) scale(1.15); }
+  100% { transform: translate(-6vw, 22vh) scale(0.95); }
+}
+@keyframes bd-b {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(18vw, -12vh) scale(1.1); }
+  100% { transform: translate(8vw, -24vh) scale(1.2); }
+}
+@keyframes bd-c {
+  0% { transform: translate(0, 0) scale(0.9); }
+  50% { transform: translate(-20vw, -10vh) scale(1.1); }
+  100% { transform: translate(14vw, 12vh) scale(1); }
+}
+@keyframes bd-grid {
+  to { background-position: 0 64px, 64px 0; }
+}
+@keyframes bd-sweep {
+  0%, 55% { transform: translateX(-60%); }
+  100% { transform: translateX(60%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bd__orb,
+  .bd__grid,
+  .bd__sweep {
+    animation: none;
+  }
+  .bd__sweep {
+    display: none;
+  }
+}
