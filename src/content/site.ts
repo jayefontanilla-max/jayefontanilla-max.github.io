@@ -18,7 +18,7 @@ export const site = {
     headerDark: '/images/brand/jf-mark-light.svg',
   },
   /** The live address, no trailing slash. Canonical URLs, the sitemap and the JSON-LD use it. */
-  url: 'https://jayefontanilla-max.github.io',
+  url: 'https://josh-fontanilla.vercel.app',
   role: 'Virtual Assistant & AI Content Specialist',
   email: 'jayefontanilla@gmail.com',
   emailSubject: 'Working together',
